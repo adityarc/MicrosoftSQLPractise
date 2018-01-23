@@ -138,3 +138,13 @@ end
 exec uspinsprod 'Nivea',250.00,100,1,'C001'
 
 
+--creating a procedure to insert values into the order details table
+create proc uspinsord(@CustomerID char(4),@ProductID int,@totalqty int,@totalprc money)
+as
+insert into OrderDetails(CustomerID,ProductID,TotalQty,TotalPrice) 
+values (@CustomerID,@ProductID,@totalqty,@totalprc)
+print 'Order generated successfully.'
+
+
+--Executing procedure for inserting values into order details
+exec uspinsord 'C001',1005,7,1500.00
