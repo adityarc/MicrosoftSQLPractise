@@ -100,3 +100,21 @@ Select * from CustomerDetails where CustomerName = @CustomerName and MobileNo = 
 
 --executing the stored procedure.
 exec uspcustdet 'Aditya','7000000000'
+
+
+--creating a stored procedure for inserting values into the table
+create proc uspinsemp(@CustomerID char(4),@CustomerName varchar(100),@City varchar(100),@MobileNo char(10),@address varchar(1000),@email varchar(200),@Pcode char(6))
+as
+if(exists(Select * from CustomerDetails where CustomerID = @CustomerID))
+begin
+print 'Customer ID already exists'
+end
+else
+begin
+insert into CustomerDetails(CustomerID,CustomerName,City,MobileNo,[Address],EmailID,PinCode) 
+values (@CustomerID,@CustomerName,@City,@MobileNo,@address,@email,@Pcode)
+print 'Customer ID :'+@CustomerID+' created successfully.'
+end
+
+--Executing the Stored Procedure for insert
+exec uspinsemp 'C002','ARC','Bangalore','7123456890','36by1','arc@gmail.com','560008'
