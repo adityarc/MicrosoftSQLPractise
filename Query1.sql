@@ -92,3 +92,11 @@ update CustomerDetails set MobileNo='7000000000' where City = 'Bangalore'
 
 -- deleting an entry from OrderDetails where the name of the customer is given.
 delete from OrderDetails where CustomerID = (select CustomerID from CustomerDetails where CustomerName = 'Aditya')
+
+--You can also define stored procedures and use them later on so that the code typing doesn't become redundant
+create proc uspcustdet(@CustomerName varchar(100), @MobileNo char(10))
+as
+Select * from CustomerDetails where CustomerName = @CustomerName and MobileNo = @MobileNo
+
+--executing the stored procedure.
+exec uspcustdet 'Aditya','7000000000'
