@@ -148,3 +148,33 @@ print 'Order generated successfully.'
 
 --Executing procedure for inserting values into order details
 exec uspinsord 'C001',1005,7,1500.00
+
+--Creating a Procedure for customer details to update the phone number and email id of the customer
+
+create proc uspupcust(@CustomerID char(4),@MobNo char(10),@email varchar(200))
+as
+if(exists(Select * from CustomerDetails where CustomerID = @CustomerID))
+begin
+update CustomerDetails set MobileNo = @MobNo, EmailID = @email
+where CustomerID = @CustomerID
+print 'Customer ID: '+@CustomerID+', updated successfully'
+end
+else
+print 'Customer ID doesnot exist'
+
+--executing the procedure for updating customer table details
+exec uspupcust 'c001','7360563506','arcl@gmail.com'
+
+--creating a Procedure for customer details to delete a record given the customer ID
+create proc uspdelcust(@CustomerID char(4))
+as
+if(exists(Select * from CustomerDetails where CustomerID = @CustomerID))
+begin
+delete from CustomerDetails where CustomerID = @CustomerID
+print 'Customer ID: '+@CustomerID+' has been deleted.'
+end
+else
+print 'Customer ID doesnot exist'
+
+--executing a procedure for customer details to delete a record given the customer id
+exec uspdelcust 'C002'
