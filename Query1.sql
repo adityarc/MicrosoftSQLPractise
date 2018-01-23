@@ -118,3 +118,23 @@ end
 
 --Executing the Stored Procedure for insert
 exec uspinsemp 'C002','ARC','Bangalore','7123456890','36by1','arc@gmail.com','560008'
+
+
+-- stored procedure for inserting product details
+create proc uspinsprod(@ProductName varchar(100),@Price money,@quantity smallint,@avail bit,@custid char(4))
+as
+if(exists(Select * from ProductDetails where ProductName = @ProductName))
+begin
+print 'Product already exists'
+end
+else
+begin
+insert into ProductDetails(ProductName,Price,Quantity,AvailableStatus,CustomerID) 
+values (@ProductName,@Price,@quantity,@avail,@custid)
+print 'Product :'+@ProductName+' added successfully.'
+end
+
+--Executing procedure for inserting values into product details
+exec uspinsprod 'Nivea',250.00,100,1,'C001'
+
+
