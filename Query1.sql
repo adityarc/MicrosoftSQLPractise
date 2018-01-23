@@ -225,3 +225,9 @@ select * from vwCustOrd
 
 --updating a view. Update cannot be applied if the change affects the value of multiple tables
 update vwCustOrd set [Address] = '36by1' where CustomerID = 'C001'
+
+-- altering a view with SchemaBinding
+alter view dbo.vwCustOrd
+with schemabinding
+as
+Select C1.CustomerID,CustomerName, OrderID, [Address] from dbo.CustomerDetails C1 join dbo.OrderDetails O1 on C1.CustomerID = O1.CustomerID
