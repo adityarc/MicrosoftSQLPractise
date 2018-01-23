@@ -178,3 +178,39 @@ print 'Customer ID doesnot exist'
 
 --executing a procedure for customer details to delete a record given the customer id
 exec uspdelcust 'C002'
+
+--Creating a Procedure for Order details to update the total price and total quantity of the product
+
+create proc uspupord(@OrderID int,@qty int,@price money)
+as
+if(exists(Select * from OrderDetails where OrderID = @OrderID))
+begin
+update OrderDetails set TotalQty = @qty, TotalPrice = @price
+where OrderID = @OrderID
+print 'Order ID: '+@OrderID+', updated successfully'
+end
+else
+print 'Order ID doesnot exist'
+
+--executing the procedure for updating order details table
+exec uspupord 10003,9,500
+
+select * from OrderDetails
+
+--creating a Procedure for order details to delete a record given the order ID
+create proc uspdelord(@OrderID int)
+as
+if(exists(Select * from OrderDetails where OrderID = @OrderID))
+begin
+delete from OrderDetails where OrderID = @OrderID
+print 'Order ID: '+@OrderID+' has been deleted.'
+end
+else
+print 'Order ID doesnot exist'
+
+
+
+sp_help productdetails
+--executing a procedure for order details to delete a record given the order id
+exec uspdelord '10003'
+
