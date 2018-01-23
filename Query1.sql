@@ -223,5 +223,5 @@ Select C1.CustomerID,CustomerName, OrderID, [Address] from CustomerDetails C1 jo
 -- displaying the table from the above defined view
 select * from vwCustOrd
 
---updating a view
+--updating a view. Update cannot be applied if the change affects the value of multiple tables
 update vwCustOrd set [Address] = '36by1' where CustomerID = 'C001'
