@@ -214,3 +214,14 @@ sp_help productdetails
 --executing a procedure for order details to delete a record given the order id
 exec uspdelord '10003'
 
+--creating VIEWS
+
+create view vwCustOrd
+as
+Select C1.CustomerID,CustomerName, OrderID, [Address] from CustomerDetails C1 join OrderDetails O1 on C1.CustomerID = O1.CustomerID
+
+-- displaying the table from the above defined view
+select * from vwCustOrd
+
+--updating a view
+update vwCustOrd set [Address] = '36by1' where CustomerID = 'C001'
