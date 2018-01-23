@@ -89,3 +89,6 @@ select * from CustomerDetails, ProductDetails, OrderDetails
 
 --Updating Customer Details
 update CustomerDetails set MobileNo='7000000000' where City = 'Bangalore'
+
+-- deleting an entry from OrderDetails where the name of the customer is given.
+delete from OrderDetails where CustomerID = (select CustomerID from CustomerDetails where CustomerName = 'Aditya')
