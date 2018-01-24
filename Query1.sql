@@ -265,3 +265,25 @@ select * from dbo.fnProductDetails(@Name)
 
 exec uspProductName 'Dell'
 
+--Temp Table and Temp table variables. 
+--you can access these tables through the object explorer by looking under tempdb which is present under the System Database
+--there are two ways a temporary table can be created: 
+--1.) Creating a temporary table using '#'=This table will only be available to the current sql query file or the session it is running on.
+
+create table #TempTable(ID int, Name varchar(100))
+
+insert into #TempTable(ID,Name)values(3,'Sanjay')
+
+select * from #TempTable
+
+alter table #TempTable add city varchar(100)
+
+update #TempTable set city = 'Bangalore' where ID = 1
+
+--2.) Creating a temporary table using a temporary table variable. 
+--Works in a batch, which means that all the collective statements should be executed together.
+--gets immediately dropped after the batch has been executed.
+
+Declare @TempTableVar table (ID int, Name varchar(100)) 
+Insert into @TempTableVar(ID,Name) values (1, 'ABC')
+Select * from @TempTableVar 
