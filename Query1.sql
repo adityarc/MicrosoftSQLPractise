@@ -231,3 +231,19 @@ alter view dbo.vwCustOrd
 with schemabinding
 as
 Select C1.CustomerID,CustomerName, OrderID, [Address] from dbo.CustomerDetails C1 join dbo.OrderDetails O1 on C1.CustomerID = O1.CustomerID
+
+
+
+--creating and calling a function
+
+create function fnCalculates(@Price float)
+returns float
+as
+begin
+return (@Price+((@Price*18)/100))
+end
+
+Declare @MRPrice float,@OriginalPrice float
+SET @OriginalPrice = 25.50
+SET @MRPrice = dbo.fnCalculates(@OriginalPrice)
+print @MRPrice
