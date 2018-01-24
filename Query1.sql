@@ -234,7 +234,7 @@ Select C1.CustomerID,CustomerName, OrderID, [Address] from dbo.CustomerDetails C
 
 
 
---creating and calling a function
+--creating and calling a function just to display the output and also how to apply it in a query
 
 create function fnCalculates(@Price float)
 returns float
@@ -247,3 +247,5 @@ Declare @MRPrice float,@OriginalPrice float
 SET @OriginalPrice = 25.50
 SET @MRPrice = dbo.fnCalculates(@OriginalPrice)
 print @MRPrice
+
+select ProductID, ProductName, Price as OriginalPrice, dbo.fnCalculates(Price) as GSTPrice from ProductDetails
