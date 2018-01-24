@@ -293,3 +293,64 @@ Declare @TempTableVar table (ID char(4), Name varchar(100))
 Insert into @TempTableVar
 select CustomerID, CustomerName from CustomerDetails
 Select * from @TempTableVar 
+
+--Practise exercises
+
+--1.Display all the orders placed on a particular city.(using subquery and table value function.)
+ 
+create function fnGetCityOrders (@City varchar(50))
+returns table
+as
+return(select * from orderdetails where OrderID in (select OrderID from orderdetails od join customerdetails cd on (od.CustomerID = cd.CustomerID) where cd.City=@City))
+
+
+select * from fnGetCityOrders('Bangalore')
+
+
+--2.a> Create a scalar function (name as fnTotalPrice) taking two arguments, price and quantity. Return type of the function is money. It returns Price * quantity (multiplies the value and returns the result). 
+
+--  b> Use the function in a procedure where there is customer id, customer name, product name, product price and total quantity. Add the 6th column as the scalar function, from above.
+
+create function fnTotalPrice(@Price float, @Quantity int)
+returns money
+as
+begin
+return (@Price*@Quantity)
+end
+
+create proc uspPriceCalculationProcedure
+as
+begin
+select cd.CustomerID, customername, productname, price, totalqty, dbo.fnTotalPrice(price, totalqty) 
+from CustomerDetails cd, OrderDetails od, PRODUCTDETAILS pd where cd.CustomerID = od.CustomerID and od.ProductID = pd.PRODUCTID  
+end
+
+exec uspPriceCalculationProcedure
+
+
+--3.Display all the details of all the customers for a particular order date.
+--This should be done using a procedure. When showing the order date, display only the date and year (e.g. Jan-2018).
+--{Hint : where month(OrderDate) = 01 and year(OrderDate) = 2018.}
+
+create proc uspDisplayCustDetailsOnDate(@month int, @year int)
+as 
+begin
+select * from CustomerDetails cd join OrderDetails od on cd.CustomerID = od.CustomerID where year(od.OrderDate) = @year and month(od.OrderDate) = @month;
+end
+
+
+exec uspDisplayCustDetailsOnDate '01','2018'
+
+
+--4. Display customerId, customer name, product name, price, orderdate and sort it by order date. Do it using stored procedures.
+
+create proc displaySortedByOrderDate
+as
+begin 
+        select customerdetails.CustomerID, customerName, ProductName, Price, Orderdate from CustomerDetails, OrderDetails, PRODUCTDETAILS where CustomerDetails.CustomerID = OrderDetails.CustomerID and OrderDetails.ProductID = PRODUCTDETAILS.PRODUCTID order by OrderDate; 
+end
+
+
+
+exec displaySortedByOrderDate
+
