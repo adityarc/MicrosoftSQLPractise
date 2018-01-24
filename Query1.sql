@@ -294,6 +294,21 @@ Insert into @TempTableVar
 select CustomerID, CustomerName from CustomerDetails
 Select * from @TempTableVar 
 
+
+--Multistatement Function
+create function fnCustomerMulti(@City varchar(100))
+returns @TempCust table
+(CustID char(4), Name varchar(100), City varchar(100))
+as
+begin
+Insert @TempCust
+Select CustomerID,CustomerName,City from CustomerDetails where City = @City
+return
+end
+
+select * from dbo.fnCustomerMulti('Bangalore')
+
+
 --Practise exercises
 
 --1.Display all the orders placed on a particular city.(using subquery and table value function.)
