@@ -287,3 +287,9 @@ update #TempTable set city = 'Bangalore' where ID = 1
 Declare @TempTableVar table (ID int, Name varchar(100)) 
 Insert into @TempTableVar(ID,Name) values (1, 'ABC')
 Select * from @TempTableVar 
+
+--2.1) When we try to insert values into the temporary table variable we must match the datatypes in insert correspondingly
+Declare @TempTableVar table (ID char(4), Name varchar(100)) 
+Insert into @TempTableVar
+select CustomerID, CustomerName from CustomerDetails
+Select * from @TempTableVar 
