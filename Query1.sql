@@ -249,3 +249,19 @@ SET @MRPrice = dbo.fnCalculates(@OriginalPrice)
 print @MRPrice
 
 select ProductID, ProductName, Price as OriginalPrice, dbo.fnCalculates(Price) as GSTPrice from ProductDetails
+
+--Table Values Function returns the value in a tabular format rather than returning a singular value result in the function described above
+--the advantage of using such functions is that they can be used as a subquery or within procedures as well.
+create function fnProductDetails(@Name varchar(100))
+returns table
+as
+return(Select * from ProductDetails where ProductName = @Name)
+
+Select * from dbo.fnProductDetails('LG')
+
+create proc uspProductName(@Name varchar(100))
+as
+select * from dbo.fnProductDetails(@Name)
+
+exec uspProductName 'Dell'
+
